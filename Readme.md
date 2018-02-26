@@ -7,7 +7,7 @@ url: '/list_of_questions',
 
 ## **post** request: array of answers
 ```
-type: 'GET',
+type: 'POST',
 url: '/answers',
 ```
 Successful response is "ROGER THAT"
