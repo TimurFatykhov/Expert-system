@@ -2,27 +2,27 @@ body{
     background: -webkit-linear-gradient(left, #25c481, #25b7c4);
     background: linear-gradient(to right, #25c481, #25b7c4);
     font-family: 'Roboto', sans-serif;
-  }
+}
 
-  h1{
+h1{
     font-size: 30px;
     color: #fff;
     text-transform: uppercase;
     font-weight: 300;
     text-align: center;
     margin-bottom: 15px;
-  }
+}
 
-  table{
+table{
     width:100%;
-    table-layout: fixed;
-  }
+    /* table-layout: fixed; */
+}
 
-  .tbl-header{
+.tbl-header{
     background-color: rgba(255,255,255,0.3);
-   }
+}
 
-  th{
+th{
     padding: 20px 15px;
     text-align: left;
     font-weight: 500;
@@ -31,9 +31,9 @@ body{
     text-transform: uppercase;
     border-bottom: solid 1px rgba(255,255,255,0.1);
     border-right: solid 1px rgba(255,255,255,0.1);
-  }
+}
 
-  td{
+td{
     padding: 15px;
     text-align: left;
     vertical-align:middle;
@@ -42,4 +42,8 @@ body{
     color: #fff;
     border-bottom: solid 1px rgba(255,255,255,0.1);
     border-right: solid 1px rgba(255,255,255,0.1);
-  }
+}
+
+table.questions td:nth-child(1){
+    width: 10px;
+}

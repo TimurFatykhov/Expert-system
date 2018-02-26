@@ -4,6 +4,15 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+h1{
+    font-size: 50px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 30px;
+}
+
 .buttons{
     margin-left: 45%;
     margin-top: 5%;
