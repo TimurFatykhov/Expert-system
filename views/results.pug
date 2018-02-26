@@ -1,0 +1,34 @@
+mixin titles(N)
+    tr
+    th=' '
+    -var i = 1
+    while i <= N
+        th='Z'+i++
+
+mixin matrix(N)
+    -var i = 1
+    table
+        +titles(N)
+        while i <= N
+            -var j = 1
+            tr
+            td='Z'+i++
+            while j <= N
+                td=j++
+
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", href="css/results_main.css")
+        title Results
+    body
+        h1 Results of poll
+        div(class='matrix')
+            +matrix(matrix_size)
+        div(class='results')
+        br
+        h1 Top of Z below 

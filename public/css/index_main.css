@@ -1,0 +1,17 @@
+body{
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
+    font-family: 'Roboto', sans-serif;
+}
+
+.buttons{
+    margin-left: 45%;
+    margin-top: 5%;
+    width: 10%;
+}
+
+a{
+    width: 100%;
+    margin-top: 1%;
+}
+

@@ -22,7 +22,7 @@ app.get('/questions', function(req,res)
 
 app.get('/results', function(req,res)
 {
-    res.render('results');
+    res.render('results', {matrix_size: 8});
 });
 
-app.listen(port, function(){console.log('srver started' + port)})
+app.listen(port, function(){console.log('server started at port #' + port)})
