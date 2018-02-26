@@ -15,4 +15,14 @@ app.get('/', function(req,res)
     res.render('index');
 });
 
+app.get('/questions', function(req,res)
+{
+    res.render('questions');
+});
+
+app.get('/results', function(req,res)
+{
+    res.render('results');
+});
+
 app.listen(port, function(){console.log('srver started' + port)})
