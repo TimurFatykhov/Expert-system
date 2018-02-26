@@ -4,7 +4,6 @@
 type: 'GET',
 url: '/list_of_questions',
 ```
-___
 
 ## **post** request: array of answers
 ```
