@@ -1,0 +1,36 @@
+body{
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
+    font-family: 'Roboto', sans-serif;
+}
+
+.row{
+    position: relative;
+    background-color: transparent;
+    margin-left: 25%;
+    margin-top: 10px;
+    width: 50%;
+    height: 90px;
+}
+
+.with_border{
+    border-radius: 20px;
+    border-width: 2px;
+    border-color: rgba(240, 248, 255, 0.631);
+    border-style: solid;
+}
+
+.q{
+    font-size: 10px;
+    display: inline-block;
+    background-color: #a722222e;
+    width: 40%;
+    height: 100%;
+}
+
+.mid{
+    display: inline-block;
+    background-color: #0000002e;
+    width: 10%;
+    height: 100%;
+}

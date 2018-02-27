@@ -33,7 +33,7 @@ app.get('/', function(req,res){
 });
 
 app.get('/questions', function(req,res){
-    res.render('questions');
+    res.render('questions', {quest_num: questions.length, quest_list: questions});
 });
 
 app.get('/results', function(req,res){

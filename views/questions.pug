@@ -1,0 +1,25 @@
+mixin row(q1, q2, num)
+    div(class='row', id='row'+num)
+        div(class='q with_border', id='q_num'+(+num*2+1))=q1
+        div(class='mid with_border', id='mid_num'+num) hello
+        div(class='q with_border', id='q_num'+(+num*2+2))=q2
+
+mixin questions(N, q_l)
+    -var i = 0
+    -var c = 1
+    while i < N
+        -var j = 1 + i
+        while j < N
+            +row(q_l[i], q_l[j++], c++)
+        -i++
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", href="css/questions_main.css")
+        title Questions
+    body
+        +questions(quest_num, quest_list)
