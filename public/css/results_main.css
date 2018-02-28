@@ -44,6 +44,6 @@ td{
     border-right: solid 1px rgba(255,255,255,0.1);
 }
 
-table.questions td:nth-child(1){
+table.results td:nth-child(1){
     width: 10px;
 }

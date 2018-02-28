@@ -50,7 +50,7 @@ $(document).ready(function()
                     else
                     {
                         for(var i = 0; i < question_count; i++){
-                            $('#q_num'+(+i+1)).html('Z'+scores[i][0]);
+                            $('#q_num'+(+i+1)).html('Z'+(+scores[i][0]+1));
                             $('#quest'+(+i+1)).html(scores[i][2]);
                         }
                     }
