@@ -1,0 +1,26 @@
+body{
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    font-size: 50px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.buttons{
+    margin-left: 45%;
+    margin-top: 5%;
+    width: 10%;
+}
+
+a{
+    width: 100%;
+    margin-top: 1%;
+}
+

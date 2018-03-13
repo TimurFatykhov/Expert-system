@@ -7,7 +7,9 @@ url: '/list_of_questions',
 
 ## **post** request: array of answers
 ```
-type: 'GET',
+type: 'POST',
 url: '/answers',
+data: answers,
 ```
-Successful response is "ROGER THAT"
+`answer` - array with comparisons.
+Response contains array with matrix's elements

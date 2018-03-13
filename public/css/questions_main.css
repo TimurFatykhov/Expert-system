@@ -1,0 +1,52 @@
+body{
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
+    font-family: 'Roboto', sans-serif;
+}
+
+.row{
+    position:sticky;
+    color: white;
+    background-color: transparent;
+    margin-left: 25%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    width: 50%;
+    height: 90px;
+}
+
+.with_border{
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.371);
+    border-style: solid;
+}
+
+.q{
+    padding: 5px;
+    display: inline-block;
+    background-color: transparent;
+    width: 42%;
+    height: 100%;
+}
+
+.mid{
+    display: inline-block;
+    background-color: transparent;
+    margin-left: 3%;
+    margin-right: 3%;
+    width: 10%;
+    height: 100%;
+}
+
+.clicked{
+    background-color: #2ba6d3c9;
+}
+
+.submit_button{
+    width: 10%;
+    height: 20px;
+    margin-left: 45%;
+    background-color: #25b7c4;
+}
