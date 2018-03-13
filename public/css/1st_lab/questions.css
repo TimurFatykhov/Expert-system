@@ -1,14 +1,7 @@
-body{
-    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-    background: linear-gradient(to right, #25c481, #25b7c4);
-    font-family: 'Roboto', sans-serif;
-}
-
 .row{
     position:sticky;
     color: white;
     background-color: transparent;
-    margin-left: 25%;
     margin-top: 10px;
     margin-bottom: 20px;
     font-size: 15px;

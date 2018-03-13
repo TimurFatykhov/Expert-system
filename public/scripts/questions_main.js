@@ -6,8 +6,7 @@ $(document).ready(function(){
     {
         type: 'GET',
         url: '/questions_num',
-        success: function(res) 
-        {
+        success: function(res) {
             ans_count = JSON.parse(res);
             if (ans_count <= 0){
                 alert("Count <= 0");
@@ -18,8 +17,7 @@ $(document).ready(function(){
                 }
             }
         },
-        error: function(err)
-        {
+        error: function(err){
             alert("Get error");
         }
     });

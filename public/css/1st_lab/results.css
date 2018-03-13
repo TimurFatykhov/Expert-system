@@ -1,0 +1,13 @@
+h1{
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+table{
+    width:100%;
+    /* table-layout: fixed; */
+}
+
+table.results td:nth-child(1){
+    width: 10px;
+}
