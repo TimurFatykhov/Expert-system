@@ -23,3 +23,11 @@ td{
     border-bottom: solid 1px rgba(255,255,255,0.1);
     border-right: solid 1px rgba(255,255,255,0.1);
 }
+
+.incorrect-input{
+    background: rgba(237, 40, 40, 0.871);
+}
+
+.correct-input{
+    background: rgba(78, 216, 57, 0.768);
+}

@@ -5,7 +5,7 @@ $(document).ready(function(){
   $.ajax(
     {
         type: 'GET',
-        url: '/questions_num',
+        url: '/questions-num',
         success: function(res) {
             ans_count = JSON.parse(res);
             if (ans_count <= 0){

@@ -1,0 +1,63 @@
+mixin list-of-questions(qs, count)
+    -var i=0
+    while i < count
+        p1=+i+1+') '
+        textarea(name="q", cols="1", rows="1")=qs[i++]
+        br
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-1.10.2.js")
+        script(src="scripts/initialization.js")
+        link(rel="stylesheet", href="css/main-style.css")
+        link(rel="stylesheet", href="css/table-style.css")
+        link(rel="stylesheet", href="css/2nd-lab/initialization.css")
+        title Poll (2nd-lab)
+    body
+        h1 Problem
+        div(class="problem-block")
+            table(class='problem')
+                tr
+                    th(id='problem' contenteditable='true') Add problem here
+        div(class='experts-block')
+            h1 Experts
+            table(class="experts-table")
+                tr
+                    th №
+                    th  Name
+                    th Quality
+                tr
+                    td 1)
+                    td(id='name1' contenteditable='true') Exp_1
+                    td(id='quality1' contenteditable='true') 1
+            div(id='add-expert-button' role="button" class="btn btn-primary") Add expert
+            div(id='rem-expert-button' role="button" class="btn btn-primary disabled" style="margin-left: 10px;") Remove last
+        div(class='questions-block')
+            h1 Alternatives
+            table(class="quest-table")
+                tr
+                    th №
+                    th Alternatives
+                tr
+                    td(style="vertical-align: top;") 1)
+                    td
+                        textarea(id='quest1', cols="1", rows="2")=placeholder
+                tr
+                    td(style="vertical-align: top;") 2)
+                    td
+                        textarea(id='quest2', cols="1", rows="2")=placeholder
+            div(id='add-quest-button' role="button" class="btn btn-primary") Add question
+            div(id='rem-quest-button' role="button" class="btn btn-primary disabled" style="margin-left: 10px;") Remove last
+        div(style='text-align: center; margin-bottom: 100px;')
+            button(type="button" class="btn btn-success" id="submit") Submit
+        
+        
+
+    

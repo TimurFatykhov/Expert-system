@@ -1,0 +1,38 @@
+mixin estimation-table(questions, expertName) 
+    table(class='estimation-table')
+        tr
+            th Alternatives
+            th Your estimations
+        -var i=0
+        while i < questions.length
+            tr
+                td=questions[i]
+                td(id='est'+(+i+1) contenteditable='true')=0
+            -i++
+
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-1.10.2.js")
+        script(src="scripts/rank.js")
+        link(rel="stylesheet", href="css/main-style.css")
+        link(rel="stylesheet", href="css/table-style.css")
+        link(rel="stylesheet", href="css/2nd-lab/weighted-estimation.css")
+        title Rank estimation
+    body
+        div(class='estimation-block')
+            h1 Rank
+            div(class='by' id='name')='by ' + expertName
+            br
+            div(class='wish') Please, mark alternatives by 1...10, where 10 is most important
+            +estimation-table(questions, expertName)
+            div(align="center")
+                div(id='submitButton' role="button" class="btn btn-primary" style='width: 100px;') Submit
+        

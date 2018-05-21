@@ -20,13 +20,14 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         script(src="https://code.jquery.com/jquery-1.10.2.js")
-        script(src="scripts/questions_main.js")
+        script(src="scripts/compares.js")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
-        link(rel="stylesheet", href="css/main_style.css")
-        link(rel="stylesheet", href="css/1st_lab/questions.css")
+        link(rel="stylesheet", href="css/main-style.css")
+        link(rel="stylesheet", href="css/1st-lab/compares.css")
         title Questions
     body
         center
+            div(class='wish') Choose more worthy alternative of two in chain
             +questions(quest_num, quest_list)
             button(type="button" class="btn btn-success" id="submit") Send
             br

@@ -1,0 +1,61 @@
+mixin m_titles(N)
+    tr
+    th=' '
+    -var i = 1
+    while i <= N
+        th='Z'+i++
+
+mixin matrix(N)
+    -var i = 1
+    table
+        +m_titles(N)
+        while i <= N
+            -var j = 1
+            tr
+            td='Z'+i++
+            while j <= N
+                td(id='cell'+((i-2)*N+j))=(i-2)*N+j++
+
+mixin results(N, tag)
+    table(class='results-'+tag)
+        tr
+            th=' '
+            th='ALternatives'
+        -var i = 1
+        while i <= N
+            tr
+                td(id='q_num_'+tag+(+i))='Z'+(+i+1)
+                td(id='quest_'+tag+(i++))
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", href="css/main-style.css")
+        link(rel="stylesheet", href="css/table-style.css")
+        link(rel="stylesheet", href="css/1st-lab/results.css")
+        script(src="https://code.jquery.com/jquery-1.10.2.js")
+        script(src="scripts/results.js")
+        title Results
+    body
+        h1=problem
+        h1 Results of compares
+        +matrix(matrix_size)
+        br
+        h1 Top of alternatives (compares)
+        -var subTag = 'comp';
+        +results(matrix_size, subTag)
+
+        h1 Top of alternatives (weighted estimations)
+        -var subTag = 'w-est';
+        +results(matrix_size, subTag)
+
+        h1 Top of alternatives (preferences estimations)
+        -var subTag = 'pref-est';
+        +results(matrix_size, subTag)
+
+        h1 Top of alternatives (rank estimations)
+        -var subTag = 'rank-est';
+        +results(matrix_size, subTag)

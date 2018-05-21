@@ -11,14 +11,10 @@ app.use(express.static("public"));
 app.set('view engine', 'pug');
 
 app.get('/', function(req,res){
-    res.render('general/main_page');
+    res.render('general/main-page');
 });
 
-
-
-
-//__[START]_FIRST LAB______________________________________________________________________________________________________________________________________
-questions = [ 
+questions_hardcore = [ 
     'Усиление рекламы в СМИ',
     'Реклама в радиоэфире',
     'Реклама на центральном ТВ',
@@ -28,63 +24,130 @@ questions = [
     'Установка выставочных стендов в главных торговых центрах города на длительный срок',
     'Спонсирование значимого общественного мероприятия (КВН, парка детских аттракционов и пр.)'
     ]
-    
-var hardcode_array = [0,0,0,0,1,1,1,  1,0,0,0,1,0.5,0,  1,1,0,0,0.5,0,1,  1,1,1,0.5,1,0.5,0.5,  1,1,1,0.5,0.5,1,1,  0,0,0.5,0,0.5,1,0,  0,0.5,1,0.5,0,0,1,  0,1,0,0.5,0,1,0]
-var experts_array = []
-    
-function matrix_size_for(array_size){
+// hardcode answers for 1-st lab.
+var hardcode_array = [0,0,0,0,1,1,1,  1,0,0,0,1,0.5,0,  1,1,0,0,0.5,0,1,  1,1,1,0.5,1,0.5,0.5,  1,1,1,0.5,0.5,1,1,  0,0,0.5,0,0.5,1,0,  0,0.5,1,0.5,0,0,1,  0,1,0,0.5,0,1,0];
+var comparesByExp = [];
+
+// main dictionary with research info
+var research = {}
+expertsGroup = [{name: 'firstName', weight: '1'}, {name: 'secondName', weight: '2'}, {name: 'thirdName', weight: '3'}];
+research['questions'] = questions_hardcore;
+research['expertsGroup'] = expertsGroup;
+research['problem'] = 'No name'
+
+// parameters for initialization page
+maxExperts = 4;
+maxQuest = 5;
+questPlaceholder = 'Add question here';
+
+
+ // ------------------------------------ FUNCTIONS ------------------------------------
+
+// calculate the size of a squared matrix from a 1-dimension array
+function matrixSizeFor(array_size){
     return (1 + Math.sqrt(1 + 4*array_size)) / 2;
 }
 
-app.get('/first_lab', function(req,res){
-    res.render('1st_lab/first_index');
-});
+ // ------------------------------------ MIDDLEWARES ------------------------------------
 
-app.get('/questions', function(req,res){
-    res.render('1st_lab/questions', {quest_num: questions.length, quest_list: questions});
+ app.get('/login/:url', function (req, res, next) {
+    var url = req.params.url;
+    var expertsNames = []
+    var group = research.expertsGroup
+    for(var i = 0; i < group.length; i++){
+        expertsNames.push(group[i]['name']);
+    }
+    res.render('2nd-lab/login', {expertsNames: expertsNames, url: '/' + url});
+  })
+
+ // ------------------------------------ PAGES ------------------------------------
+
+app.get('/compares', function(req,res){
+    res.render('1st-lab/compares', {quest_num: research['questions'].length, quest_list: research['questions']});
 });
 
 app.get('/results', function(req,res){
-    if(experts_array.length == 0){
-        res.render('1st_lab/results', {matrix_size: matrix_size_for(hardcode_array.length)});
+    if(comparesByExp.length == 0){
+        res.render('1st-lab/results', {problem: research['problem'], matrix_size: matrixSizeFor(hardcode_array.length)});
     }
     else{
-        res.render('1st_lab/results', {matrix_size: matrix_size_for(experts_array.length)})
+        res.render('1st-lab/results', {problem: research['problem'], matrix_size: matrixSizeFor(comparesByExp.length)})
     }
 });
 
+app.get('/initialization', function(req,res){
+    res.render('2nd-lab/initialization', {placeholder: questPlaceholder});
+});
+
+app.get('/weighted-estimation', function(req, res){
+    expertName = req.query.name;
+    res.render('2nd-lab/weighted-estimation', {questions: research['questions'], expertName: expertName})
+});
+
+app.get('/preferences', function(req,res){
+    expertName = req.query.name;
+    res.render('3rd-lab/preferences', {questions: research['questions'], expertName: expertName})
+});
+
+app.get('/rank', function(req,res){
+    expertName = req.query.name;
+    res.render('3rd-lab/rank', {questions: research['questions'], expertName: expertName})
+});
+
+
+// ------------------------------------ REQUEST HANDLERS ------------------------------------
 app.get('/array', function(req,res){
-    if(experts_array.length == 0){
-        data = JSON.stringify({array: hardcode_array, matrix_size: matrix_size_for(hardcode_array.length)})
+    if(comparesByExp.length == 0){
+        data = JSON.stringify({array: hardcode_array, matrix_size: matrixSizeFor(hardcode_array.length)})
     }
     else{
-        data = JSON.stringify({array: experts_array, matrix_size: matrix_size_for(experts_array.length)})
+        data = JSON.stringify({array: comparesByExp, matrix_size: matrixSizeFor(comparesByExp.length)})
     }
-
     res.send(data);
 });
 
-app.get('/list_of_questions', function(req,res){
-    res.send(JSON.stringify(questions))
+app.get('/list-of-questions', function(req,res){
+    res.send(JSON.stringify(research['questions']))
 });
 
-app.get('/questions_num', function(req, res){
-    var N = questions.length;
+app.get('/questions-num', function(req, res){
+    var N = research['questions'].length;
     N = (N * (N - 1)) / 2;
     res.send(JSON.stringify(N));
 });
 
-app.get('/top_questions', function(req,res){
+app.get('/research-params', function(req, res){
+    res.send(JSON.stringify(research));
+});
+
+// catching results of comparisons
+app.post('/answers', function(req,res){
+    comparesByExp = [];
+    var array = req.body.answers;
+    var N = matrixSizeFor(array.length * 2)
+    for(var i = 0, pd = 0, ps = 0; i < N; i++){ // pd - pointer destination, ps = pointer source
+        for(var j = 0, inv_pointer = i-1; j < i; j++, pd++, inv_pointer += N - 1 - j){
+            comparesByExp[pd] = 1 - (array[inv_pointer]); // inverting elements (fill matrxi until diag)
+        }
+        for(var j = 0; j < N - 1 - i; j++, ps++, pd++){
+            comparesByExp[pd] = array[ps]
+        }
+    }
+    res.send(comparesByExp);
+});
+
+// top by compare
+app.get('/top-questions', function(req,res){
     var N = 0
     var array = []
 
-    if(experts_array.length == 0){
-        N = matrix_size_for(hardcode_array.length)
+    if(comparesByExp.length == 0){
+        N = matrixSizeFor(hardcode_array.length)
         array = hardcode_array
     }
     else{
-        N = matrix_size_for(experts_array.length)
-        array = experts_array;
+        N = matrixSizeFor(comparesByExp.length)
+        array = comparesByExp;
     }
 
     scores = []
@@ -93,7 +156,7 @@ app.get('/top_questions', function(req,res){
         for(var j = 0; j < N - 1; j++, ap++){
             line_score += array[ap]
         }
-        scores[i] = [i,line_score,questions[i]]
+        scores[i] = [i,line_score,research['questions'][i]]
     }
 
     scores.sort(function(first, second) {
@@ -103,47 +166,180 @@ app.get('/top_questions', function(req,res){
     res.send(scores)
 });
 
-app.post('/answers', function(req,res){
-    var array = req.body.answers;
-    var N = matrix_size_for(array.length * 2)
-    for(var i = 0, pd = 0, ps = 0; i < N; i++){ // pd - pointer destination, ps = pointer source
-        for(var j = 0, inv_pointer = i-1; j < i; j++, pd++, inv_pointer += N - 1 - j){
-            experts_array[pd] = 1 - (array[inv_pointer]); // inverting elements (fill matrxi until diag)
-        }
-        for(var j = 0; j < N - 1 - i; j++, ps++, pd++){
-            experts_array[pd] = array[ps]
+app.get('/init-params', function(req,res){
+    res.send(JSON.stringify({maxExperts: maxExperts, maxQuest: maxQuest, placeholder: questPlaceholder}));
+});
+
+app.post('/interview-params', function(req,res){
+    data = req.body.param
+    data = JSON.parse(data)
+    expertsGroup = data.expertsGroup
+    research['questions'] = data['questions']
+    research['expertsGroup'] = expertsGroup;
+    research['problem'] = data.problem
+    res.send('ok')
+
+    var summ = 0;
+    for(i in research.expertsGroup){
+        research.expertsGroup[i]['rel-weight'] = 0;
+        summ += +research.expertsGroup[i]['weight'];
+    }
+
+    for(var i = 0; i < research.expertsGroup.length; i ++){
+        research.expertsGroup[i]['rel-weight'] = research.expertsGroup[i]['weight'] / summ;
+    }
+
+    console.log("exp group init: " + JSON.stringify(research.expertsGroup) + "\n\n");
+});
+
+// result of weighted estimation
+app.post('/weight-est-res', function(req, res){
+    data = req.body;
+    for(i in research.expertsGroup){
+        if(research.expertsGroup[i]['name'] == data.expertName){
+            research.expertsGroup[i]['res-of-w-est'] = JSON.parse(data.estimations);
         }
     }
-    res.send(experts_array);
-});
-//__[END]_FIRST LAB________________________________________________________________________________________________________________________________________
-
-
-
-
-//__[START]_SECOND_LAB_____________________________________________________________________________________________________________________________________
-questions_2 = [
-    'it is first',
-    'it is second',
-    'bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla',
-    'bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla',
-    'third'
-]
-
-max_experts = 4;
-
-app.get('/second_lab', function(req,res){
-    res.render('2nd_lab/second_index');
+    console.log("exp group after res: " + JSON.stringify(research.expertsGroup) + "\n\n");
+    res.send('ok');
 });
 
-app.get('/poll', function(req,res){
-    res.render('2nd_lab/poll', {questions: questions_2, count: questions_2.length});
+// result of preferences estimation
+app.post('/preferences-est-res', function(req, res){
+    data = req.body;
+    console.log(data);
+    for(expert in research.expertsGroup){
+        if(research.expertsGroup[expert]['name'] == data.expertName){
+            research.expertsGroup[expert]['preferences-est'] = JSON.parse(data.estimations);
+        }
+    }
+    
+    research['maxPref'] = data.maxPref;
+    console.log(research.expertsGroup);
+    res.send('ok');
 });
 
-app.get('/poll_params', function(req,res){
-    res.send(JSON.stringify({max_experts: max_experts, quest_count: questions_2.length, questions: questions_2}));
+// result of rank estimation
+app.post('/rank-est-res', function(req, res){
+    data = req.body;
+    console.log(data);
+    for(expert in research.expertsGroup){
+        if(research.expertsGroup[expert]['name'] == data.expertName){
+            research.expertsGroup[expert]['rank-est'] = JSON.parse(data.estimations);
+        }
+    }
+    
+    console.log("after catching rank res: " + JSON.stringify(research.expertsGroup));
+    res.send('ok');
 });
-//__[END]_SECOND_LAB_______________________________________________________________________________________________________________________________________
 
+app.get('/top-w-est-questions', function(req,res){
+    var N = 0
+    var array = []
+
+    scores = []
+    for(var i = 0; i < research.questions.length; i++){
+        scores.push([i, 0, research['questions'][i]]);  // <-- number / score / question
+    }
+
+    answeredExperts = [];
+    for(var i = 0; i < research.expertsGroup.length; i++){
+        if(research.expertsGroup[i]['res-of-w-est']){ // if answered
+            answeredExperts.push([research.expertsGroup[i]['res-of-w-est'], research.expertsGroup[i]['rel-weight']]);
+        }
+    }
+
+    console.log(JSON.stringify(answeredExperts));
+    for(var i = 0; i < answeredExperts.length; i++){
+        for(var j = 0; j < research.questions.length; j++){
+            scores[j][1] += (+answeredExperts[i][0][j]) * (+answeredExperts[i][1]);    // relative weight
+        }
+    }
+
+    scores.sort(function(first, second) {
+        return second[1] - first[1];
+    });
+
+    res.send(scores)
+});
+
+app.get('/top-pref-est-questions', function(req,res){
+    var N = 0;
+    var array = [];
+
+    var questScores = [];
+    for(var j = 0; j < research.questions.length; j++){
+        questScores.push(0)
+    }
+
+    for(i in research.expertsGroup){
+        for(var j = 0; j < research.questions.length; j++){
+            questScores[j] += +research['maxPref'] - research['expertsGroup'][i]['preferences-est'][j];
+        }
+    }
+
+    console.log('quest scores: ' + JSON.stringify(questScores) + "\n");
+    console.log('max pref: ' + JSON.stringify(research['maxPref']) + "\n");
+
+    var summ = 0;
+    for(var i in questScores){
+        summ += +questScores[i];
+    }
+    for(var i in questScores){
+        questScores[i] = +questScores[i]/summ;
+    }
+
+    console.log('quest scores: ' + JSON.stringify(questScores) + "\n");
+
+    scores = []
+    for(var i = 0; i < research.questions.length; i++){
+        scores.push([i, questScores[i], research['questions'][i]]);  // <-- number / score / question
+    }
+
+    scores.sort(function(first, second) {
+        return second[1] - first[1];
+    });
+
+    console.log("pref scores: " + JSON.stringify(scores) + "\n\n")
+    res.send(scores)
+});
+
+app.get('/top-rank-est-questions', function(req,res){
+    var N = 0;
+    var array = [];
+
+    console.log(JSON.stringify(research['expertsGroup']));
+
+    var summEstByExperts = [];
+    var questScores = [];
+    for(var j = 0; j < research.questions.length; j++){
+        summEstByExperts.push(0);
+        questScores.push(0);
+    }
+    for(i in research.expertsGroup){
+        for(var j = 0; j < research.questions.length; j++){
+            summEstByExperts[i] += +research['expertsGroup'][i]['rank-est'][j]
+        }
+    }
+    for(i in research.expertsGroup){
+        for(var j = 0; j < research.questions.length; j++){
+            questScores[j] += research['expertsGroup'][i]['rank-est'][j] / summEstByExperts[i];
+        }
+    }
+
+    console.log('quest scores: ' + JSON.stringify(questScores) + "\n");
+
+    scores = []
+    for(var i = 0; i < research.questions.length; i++){
+        scores.push([i, questScores[i], research['questions'][i]]);  // <-- number / score / question
+    }
+
+    scores.sort(function(first, second) {
+        return second[1] - first[1];
+    });
+
+    console.log("rank scores: " + JSON.stringify(scores) + "\n\n")
+    res.send(scores)
+});
 
 app.listen(port, function(){console.log('server started at port #' + port)})

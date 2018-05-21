@@ -2,11 +2,17 @@ h1{
     font-size: 25px;
 }
 
-.experts_block{
+.experts-block{
     position:sticky;
     width: 30%;
     margin-left: 35%;
     margin-top: 5%;
+}
+
+.problem-block{
+    width: 30%;
+    margin-left: 35%;
+    /* margin-top: 5%; */
 }
 
 table{
@@ -44,40 +50,48 @@ td{
     border-right: solid 1px rgba(255,255,255,0.1);
 }
 
-#addExpertButton{
+#add-expert-button{
     color: white;
     width: 30%;
 }
 
-.disabled_button{
+.disabled-button{
     background-color: slategray;
     border-color: slategray;
 }
 
-.disabled_button:hover{
+.disabled-button:hover{
     background-color: slategray;
     border-color: slategray;
 }
 
-.questions_block{
+.questions-block{
     position:sticky;
     width: 30%;
     margin-left: 35%;
     margin-top: 5%;
     color: white;
+    margin-bottom: 50px;
 }
 
-.estimation_block{
+.estimation-block{
     margin-top: 5%;
     width: 60%;
     margin-left: 20%;
 }
 
-.result_block{
-    width: 30%;
-    margin-left: 35%;
-    margin-top: 5%;
+textarea{
     color: white;
+    appearance: none;
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    text-align: left;
+    font-size: inherit;
+    font-weight: bold;
+    background-color: transparent;
 }
 
 /* table.result th:nth-child(1){
