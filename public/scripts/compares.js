@@ -79,7 +79,7 @@ $(document).ready(function(){
     $.ajax(
       {
           type: 'POST',
-          url: '/answers',
+          url: '/bin-comp-res',
           data: JSON.stringify({'answers': answers}),
           contentType: "application/json",
           success: function(res) 

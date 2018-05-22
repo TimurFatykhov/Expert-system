@@ -5,6 +5,7 @@
     "nodemon": "1.15.1"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "jquery": "^3.3.1"
   }
 }
