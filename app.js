@@ -1,7 +1,6 @@
 var express = require('express');
 var parser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var serverPages = require('./server-pages')
 var port = 2001;
 
 var app = express()
@@ -10,7 +9,6 @@ app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json())
 app.use(express.static("public"));
 app.use(cookieParser());
-serverPages.setApp(app);
 
 app.set('view engine', 'pug');
 
@@ -46,6 +44,11 @@ research.expertsGroup = expertsGroup;
 research.problemName = 'No name'
 
 var researchResults = {}
+
+researchResults.compare = {}
+researchResults.weightEst = {}
+researchResults.pref = {}
+researchResults.rank = {}
 researchResults.decCompare = {}
 
 // parameters for initialization page
@@ -121,17 +124,7 @@ app.get('/rank', function(req,res){
     res.render('3rd-lab/rank', {questions: research['questions'], expertName: expertName})
 });
 
-
-// ------------------------------------ REQUEST HANDLERS ------------------------------------
-app.get('/array', function(req,res){
-    if(comparesByExp.length == 0){
-        data = JSON.stringify({array: hardcode_array, matrix_size: matrixSizeFor(hardcode_array.length)})
-    }
-    else{
-        data = JSON.stringify({array: comparesByExp, matrix_size: matrixSizeFor(comparesByExp.length)})
-    }
-    res.send(data);
-});
+// ------------------------------------ RESEARCH INFO ------------------------------------
 
 app.get('/list-of-questions', function(req,res){
     res.send(JSON.stringify(research['questions']))
@@ -147,8 +140,21 @@ app.get('/research-params', function(req, res){
     res.send(JSON.stringify(research));
 });
 
+// ------------------------------------ BINARY COMPARES ------------------------------------
+
+app.get('/array', function(req,res){
+    if(comparesByExp.length == 0){
+        data = JSON.stringify({array: hardcode_array, matrix_size: matrixSizeFor(hardcode_array.length)})
+    }
+    else{
+        data = JSON.stringify({array: comparesByExp, matrix_size: matrixSizeFor(comparesByExp.length)})
+    }
+    res.send(data);
+});
+
 // catching results of comparisons
 app.post('/bin-comp-res', function(req,res){
+    console.log('in /bin-comp-res');
     comparesByExp = [];
     var array = req.body.answers;
     var N = matrixSizeFor(array.length * 2)
@@ -193,6 +199,8 @@ app.get('/top-questions', function(req,res){
     res.send(scores)
 });
 
+// ------------------------------------ DECIMAL COMPARES ------------------------------------
+
 // catching results of decimal comparisons
 app.post('/dec-comp-res', function(req,res){
     var data = req.body;
@@ -217,6 +225,7 @@ app.post('/dec-comp-res', function(req,res){
 
 // top by decimal compare
 app.get('/top-dec-comp', function(req,res){
+    console.log('in /top-dec-comp');
     var scores = []
     for(var i = 0; i < research.questionCount; i++){
         scores.push([i, 0, research['questions'][i]]);  // <-- number / score / question
@@ -313,8 +322,11 @@ app.post('/rank-est-res', function(req, res){
 });
 
 app.get('/top-w-est-questions', function(req,res){
+    console.log('in /top-w-est-questions');
     var N = 0
     var array = []
+
+    if(research.expertsGroup[i]['res-of-w-est'] == undefined) res.send([]);
 
     var scores = []
     for(var i = 0; i < research.questions.length; i++){
@@ -343,6 +355,7 @@ app.get('/top-w-est-questions', function(req,res){
 });
 
 app.get('/top-pref-est-questions', function(req,res){
+    console.log('in /top-pref-est-questions');
     var N = 0;
     var array = [];
 
@@ -384,6 +397,7 @@ app.get('/top-pref-est-questions', function(req,res){
 });
 
 app.get('/top-rank-est-questions', function(req,res){
+    console.log('in /top-rank-est-questions');
     var N = 0;
     var array = [];
 

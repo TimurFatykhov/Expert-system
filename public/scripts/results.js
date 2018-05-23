@@ -5,34 +5,6 @@ $(document).ready(function()
     $.ajax(
         {
             type: 'GET',
-            url: '/top-dec-comp',
-            success: function(res) 
-            {
-                scores = res;
-                question_count = scores.length
-                console.log('scores/res: ' + JSON.stringify(scores));
-                if (question_count <= 0)
-                {
-                    alert("Array is empty :(");
-                }
-                else
-                {
-                    var tag = 'dec-comp-est' // define the table with results
-                    for(var i = 0; i < question_count; i++){
-                        $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
-                        $('#quest_'+tag+(+i+1)).html(scores[i][2]);
-                    }
-                }
-            },
-            error: function(err)
-            {
-                alert("Get dec-comp-res error");
-            }
-        });
-
-    $.ajax(
-        {
-            type: 'GET',
             url: '/array',
             success: function(res) 
             {
@@ -102,7 +74,7 @@ $(document).ready(function()
                     question_count = scores.length
                     if (question_count <= 0)
                     {
-                        alert("Array is empty :(");
+                        console.log("GET_/top-w-est-questions -> Array is empty :(");
                     }
                     else
                     {
@@ -172,4 +144,32 @@ $(document).ready(function()
                     alert("Get rank-res error");
                 }
             });
+
+    $.ajax(
+        {
+            type: 'GET',
+            url: '/top-dec-comp',
+            success: function(res) 
+            {
+                scores = res;
+                question_count = scores.length
+                console.log('scores/res: ' + JSON.stringify(scores));
+                if (question_count <= 0)
+                {
+                    alert("Array is empty :(");
+                }
+                else
+                {
+                    var tag = 'dec-comp-est' // define the table with results
+                    for(var i = 0; i < question_count; i++){
+                        $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
+                        $('#quest_'+tag+(+i+1)).html(scores[i][2]);
+                    }
+                }
+            },
+            error: function(err)
+            {
+                alert("Get dec-comp-res error");
+            }
+        });
 });
