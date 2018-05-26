@@ -1,3 +1,4 @@
+
 $(document).ready(function()
 {
     var matrix_size = 0;
@@ -9,12 +10,16 @@ $(document).ready(function()
             success: function(res) 
             {
                 res = JSON.parse(res);
+                if(res.length == 0){
+                    alert('Nobody answered by compare method!')
+                    return
+                }
                 array = res['array']
                 matrix_size = res['matrix_size'];
                 array_size = matrix_size**2
                 if (array_size <= 0)
                 {
-                    alert("Array is empty :(");
+                    // alert("Array is empty :(");
                 }
                 else
                 {
@@ -42,10 +47,14 @@ $(document).ready(function()
                 success: function(res) 
                 {
                     scores = res;
+                    if(scores.length == 0){
+                        alert('Nobody answered by compare method!')
+                        return
+                    }
                     question_count = scores.length
                     if (question_count <= 0)
                     {
-                        alert("Array is empty :(");
+                        // alert("Array is empty :(");
                     }
                     else
                     {
@@ -70,11 +79,12 @@ $(document).ready(function()
                 url: '/top-w-est-questions',
                 success: function(res) 
                 {
-                    scores = res;
+                    scores = res.scores;
+                    without = res.withoutExperts;
                     question_count = scores.length
                     if (question_count <= 0)
                     {
-                        console.log("GET_/top-w-est-questions -> Array is empty :(");
+                        // console.log("GET_/top-w-est-questions -> Array is empty :(");
                     }
                     else
                     {
@@ -83,6 +93,9 @@ $(document).ready(function()
                             $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
                             $('#quest_'+tag+(+i+1)).html(scores[i][2]);
                         }
+                    }
+                    if(without.length > 0){
+                        alert(JSON.stringify(without) + " didn't answer by weighted estimation method");
                     }
                 },
                 error: function(err)
@@ -97,11 +110,12 @@ $(document).ready(function()
                 url: '/top-pref-est-questions',
                 success: function(res) 
                 {
-                    scores = res;
+                    scores = res.scores;
+                    without = res.withoutExperts;
                     question_count = scores.length
                     if (question_count <= 0)
                     {
-                        alert("Array is empty :(");
+                        // alert("Array is empty :(");
                     }
                     else
                     {
@@ -110,6 +124,9 @@ $(document).ready(function()
                             $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
                             $('#quest_'+tag+(+i+1)).html(scores[i][2]);
                         }
+                    }
+                    if(without.length > 0){
+                        alert(JSON.stringify(without) + " didn't answer by preferences method");
                     }
                 },
                 error: function(err)
@@ -124,11 +141,12 @@ $(document).ready(function()
                 url: '/top-rank-est-questions',
                 success: function(res) 
                 {
-                    scores = res;
+                    scores = res.scores;
+                    without = res.withoutExperts;
                     question_count = scores.length;
                     if (question_count <= 0)
                     {
-                        alert("Array is empty :(");
+                        // alert("Array is empty :(");
                     }
                     else
                     {
@@ -137,6 +155,9 @@ $(document).ready(function()
                             $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
                             $('#quest_'+tag+(+i+1)).html(scores[i][2]);
                         }
+                    }
+                    if(without.length > 0){
+                        alert(JSON.stringify(without) + " didn't answer by rank estimation method");
                     }
                 },
                 error: function(err)
@@ -151,12 +172,13 @@ $(document).ready(function()
             url: '/top-dec-comp',
             success: function(res) 
             {
-                scores = res;
+                scores = res.scores;
+                without = res.withoutExperts;
                 question_count = scores.length
                 console.log('scores/res: ' + JSON.stringify(scores));
                 if (question_count <= 0)
                 {
-                    alert("Array is empty :(");
+                    // alert("GET_/top-dec-comp -> Array is empty :(");
                 }
                 else
                 {
@@ -165,6 +187,9 @@ $(document).ready(function()
                         $('#q_num_'+tag+(+i+1)).html('Z'+(+scores[i][0]+1));
                         $('#quest_'+tag+(+i+1)).html(scores[i][2]);
                     }
+                }
+                if(without.length > 0){
+                    alert(JSON.stringify(without) + " didn't answer by decimal compares method");
                 }
             },
             error: function(err)

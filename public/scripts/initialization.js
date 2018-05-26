@@ -109,15 +109,17 @@ $(document).ready(function(){
         }
         else{ // all questions are correct
             expertsGroup = []
+            expertList = [];
             questions = []
             for(var i = 0; i < expertsCount; i++){
                 expertsGroup.push( {name: $('#name' + (+i+1)).text(), weight: $('#quality' + (+i+1)).text() })
+                expertList.push($('#name' + (+i+1)).text());
             }
             for(var i = 0; i < questCount; i++){
                 questions.push ( $('#quest' + (+i+1)).val() )
             }
             problem = $('#problem').text()
-            data = {'problem': problem, 'expertsGroup': expertsGroup, 'questions': questions}
+            data = {'problem': problem, 'expertsGroup': expertsGroup, 'questions': questions, 'expertList': expertList}
             data = {param: JSON.stringify(data)}
             
             console.log(data)
